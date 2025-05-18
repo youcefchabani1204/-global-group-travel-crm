@@ -1,4 +1,4 @@
-global class TripBatch implements Database.Batchable<SObject> {
+global with sharing class TripBatch implements Database.Batchable<SObject> {
 
     public Database.QueryLocator start(Database.BatchableContext bc) {
         Date targetDate = Date.today().addDays(7);
