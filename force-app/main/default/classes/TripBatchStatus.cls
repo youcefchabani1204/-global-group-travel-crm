@@ -10,11 +10,10 @@ global class TripBatchStatus implements Database.Batchable<SObject> {
 
     public void execute(Database.BatchableContext bc, List<SObject> scope) {
         List<Trip__c> tripsToUpdate = new List<Trip__c>();
-        Date today = Date.today();
+        Date today = Date.today();     
         
         for (SObject s : scope) {
             Trip__c trip = (Trip__c) s;
-
             if (today < trip.Start_Date__c) {
                 trip.Status__c = 'A venir';
                 tripsToUpdate.add(trip);
@@ -33,6 +32,7 @@ global class TripBatchStatus implements Database.Batchable<SObject> {
     }
 
     public void finish(Database.BatchableContext bc) {
-        // Post-processing ou log, si besoin
+      system.debug('finish TripBatchStatus');
     }
+
 } 
