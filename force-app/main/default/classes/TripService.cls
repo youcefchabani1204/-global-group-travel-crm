@@ -2,12 +2,15 @@ public with sharing class TripService {
       public static void createTripWhenOpportunityUpdated(List<Opportunity> newOpps, Map<Id, Opportunity> oldOppMap) {
         List<Trip__c> tripsToInsert = new List<Trip__c>();
         
+
         for (Opportunity o : newOpps) {
             Opportunity oldOpp = oldOppMap.get(o.Id);
-            
+                       System.debug('le old map '+oldOpp);
+
             // On vérifie si le stage est passé à 'Closed Won'
             if (o.StageName == 'Closed Won' && oldOpp.StageName != 'Closed Won') {
                 Trip__c trip = new Trip__c();
+                trip.Name='trip of '+o.Name;
                 trip.Opportunity__c = o.Id;
                 trip.Account__c = o.AccountId;
                 trip.Status__c = 'A venir';

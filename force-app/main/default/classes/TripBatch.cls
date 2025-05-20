@@ -5,7 +5,7 @@ global with sharing class TripBatch implements Database.Batchable<SObject> {
         return Database.getQueryLocator([
             SELECT Id, Status__c, Number_of_Participants__c, Start_Date__c
             FROM Trip__c
-            WHERE Start_Date__c = :targetDate
+            WHERE Start_Date__c < :targetDate
             AND Number_of_Participants__c < 10
             AND Status__c != 'Annulé'
         ]);
@@ -24,6 +24,6 @@ global with sharing class TripBatch implements Database.Batchable<SObject> {
     }
 
     public void finish(Database.BatchableContext bc) {
-        // Optionnel : envoyer un email de notification ou log
+        System.debug('Finished trip batch job');
     }
 }
