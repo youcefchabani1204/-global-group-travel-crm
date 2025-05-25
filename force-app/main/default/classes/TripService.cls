@@ -1,13 +1,9 @@
 public with sharing class TripService {
       public static void createTripWhenOpportunityUpdated(List<Opportunity> newOpps, Map<Id, Opportunity> oldOppMap) {
         List<Trip__c> tripsToInsert = new List<Trip__c>();
-        
-
-        for (Opportunity o : newOpps) {
+            for (Opportunity o : newOpps) {
             Opportunity oldOpp = oldOppMap.get(o.Id);
-                       System.debug('le old map '+oldOpp);
-
-            // On vérifie si le stage est passé à 'Closed Won'
+                       // On vérifie si le stage est passé à 'Closed Won'
             if (o.StageName == 'Closed Won' && oldOpp.StageName != 'Closed Won') {
                 Trip__c trip = new Trip__c();
                 trip.Name='trip of '+o.Name;
@@ -19,23 +15,19 @@ public with sharing class TripService {
                 trip.End_Date__c = o.End_Date__c;
                 trip.Number_of_Participants__c = o.Number_of_Participants__c;
                 trip.Total_Cost__c = o.Amount;
-                
-                // Le nom est auto-généré dans Salesforce ou avec un champ formule
+                       // Le nom est auto-généré dans Salesforce ou avec un champ formule
                 tripsToInsert.add(trip);
             }
         }
-
         if (!tripsToInsert.isEmpty()) {
             insert tripsToInsert;
         }
     }
     public static void checkIfTripDateCorrect(List<Trip__c > newTrps){
-        
-         for (Trip__c t :  newTrps) {
+          for (Trip__c t :  newTrps) {
               if (t.Start_Date__c >= t.End_Date__c) {
                 t.addError('La date de début doit être antérieure à la date de fin du voyage.');
             }
-             
-    }
+         }
 }
 }
