@@ -2,24 +2,16 @@
 private class TripServiceTest {
     @isTest
   private  static void createTripWhenOpportunityUpdatedTest () {
-
   Opportunity opp = TestDataFactory.createTestOpportunity('Prospecting');
   opp.StageName='Closed Won';
   update opp;
-  
-
-
-
- 
             Test.startTest();
             List<Trip__c> tripsCreated = [SELECT Id, End_Date__c, Opportunity__c FROM Trip__c WHERE Opportunity__c = :opp.Id];
-
             Test.stopTest();
             System.Assert.areEqual(1, tripsCreated.size());
             System.Assert.areEqual(opp.Id, tripsCreated[0].Opportunity__c);
   } 
-    
-    @isTest
+        @isTest
     private static  void  checkIfTripDateCorrectTest(){
       Date tripStartDate=Date.today().addDays(10);
       Date tripEndDate=Date.today().addDays(20);
