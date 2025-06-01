@@ -1,5 +1,7 @@
 public with sharing class TripService {
       public static void createTripWhenOpportunityUpdated(List<Opportunity> newOpps, Map<Id, Opportunity> oldOppMap) {
+                     System.debug('Old opp : ' + oldOppMap);
+
         List<Trip__c> tripsToInsert = new List<Trip__c>();
             for (Opportunity o : newOpps) {
             Opportunity oldOpp = oldOppMap.get(o.Id);

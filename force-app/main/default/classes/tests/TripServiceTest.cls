@@ -1,16 +1,23 @@
 @isTest
 private class TripServiceTest {
     @isTest
-  private  static void createTripWhenOpportunityUpdatedTest () {
-  Opportunity opp = TestDataFactory.createTestOpportunity('Prospecting');
-  opp.StageName='Closed Won';
-  update opp;
-            Test.startTest();
-            List<Trip__c> tripsCreated = [SELECT Id, End_Date__c, Opportunity__c FROM Trip__c WHERE Opportunity__c = :opp.Id];
-            Test.stopTest();
-            System.Assert.areEqual(1, tripsCreated.size());
-            System.Assert.areEqual(opp.Id, tripsCreated[0].Opportunity__c);
-  } 
+    private static void createTripWhenOpportunityUpdatedTest() {
+        // Création d'une opportunité simulant une ancienne version (avant update)
+        Opportunity oldOpp = TestDataFactory.createTestOpportunity('Prospecting');
+        
+        Opportunity newOpp = oldOpp.clone(false, false, false, false);
+        newOpp.StageName = 'Closed Won';
+       newOpp.Id = oldOpp.Id;
+       Map<Id, Opportunity> oldMap = new Map<Id, Opportunity>{oldOpp.Id => oldOpp};
+
+        Test.startTest();
+        TripService.createTripWhenOpportunityUpdated(new List<Opportunity>{newOpp}, oldMap);
+        Test.stopTest();
+
+        List<Trip__c> trips = [SELECT Id, Opportunity__c FROM Trip__c WHERE Opportunity__c = :oldOpp.Id];
+        System.assertEquals(1, trips.size(), 'Un voyage doit être créé');
+        System.assertEquals(oldOpp.Id, trips[0].Opportunity__c, 'Le voyage doit être lié à la bonne opportunité');
+    }
         @isTest
     private static  void  checkIfTripDateCorrectTest(){
       Date tripStartDate=Date.today().addDays(10);

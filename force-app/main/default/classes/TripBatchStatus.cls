@@ -29,4 +29,5 @@ global class TripBatchStatus implements Database.Batchable<SObject> {
     public void finish(Database.BatchableContext bc) {
       system.debug('finish TripBatchStatus');
     }
+    
 } 

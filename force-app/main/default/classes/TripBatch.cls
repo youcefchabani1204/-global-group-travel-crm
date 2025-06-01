@@ -25,5 +25,7 @@ global with sharing class TripBatch implements Database.Batchable<SObject> {
 
     public void finish(Database.BatchableContext bc) {
         System.debug('Finished trip batch job');
+
     }
+   
 }
