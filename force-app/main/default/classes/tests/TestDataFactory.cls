@@ -1,4 +1,6 @@
+@isTest
 public class TestDataFactory {
+    @isTest
     public static Opportunity createTestOpportunity(String stageName) {
         Opportunity opp = new Opportunity(
             Name = 'Test Opportunity',
@@ -10,6 +12,7 @@ public class TestDataFactory {
         insert opp;
         return opp;
     }
+    @isTest
     public static Trip__c createTestTrip(Date startDate,Date endDate){
         Trip__c trip = new Trip__c(
             Name = 'Test Trip',
